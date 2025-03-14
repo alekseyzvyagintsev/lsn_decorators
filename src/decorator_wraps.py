@@ -27,5 +27,6 @@ def square(value):
     """ Возведение числа в квадрат"""
     return value ** 2
 
-
-print(help(square))
+help(square)         # help выдаст описание
+# Или так
+print(help(square))  # help выдаст описание, а print выдаст None
