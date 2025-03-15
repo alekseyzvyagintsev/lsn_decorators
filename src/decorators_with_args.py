@@ -1,5 +1,8 @@
 from functools import wraps
 
+import pytest
+
+
 def checking_that_arg_is(predicate, error_message):
     def wrapper(function):
         @wraps(function)
@@ -46,7 +49,7 @@ def example_function(value):
     """ Функция умножения на 2"""
     return value * 2
 
-print(example_function(1))
+# print(example_function(1))
 
 ########################### пример использования с предикатами ############################
 
@@ -56,7 +59,7 @@ def foo(arg):
     return arg
 
 
-print(foo(int(example_function(22))))
+# print(foo(int(example_function(22))))
 
 
 @checking_that_arg_is(predicate_is_int, "Должно быть целое число")
@@ -66,7 +69,21 @@ def square(value):
     return value ** 2
 
 
-print(help(square))
+# print(help(square))
 # print(example_function(1))
 # print(example_function("1"))
 # print(example_function(-1))
+
+
+########################### Тест декоратора ###########################
+
+if __name__ == '__main__':
+    # Тест на выбрасывание ошибки декоратором совместно с конкретным предикатором
+    with pytest.raises(ValueError, match="Число должно быть больше нуля"):
+        square(-3)
+
+    # Тест на то, что декоратор отрабатывает декорируемую функцию если не выпала ошибка предикатора
+    assert square(3) == 9
+
+    # Тест работы предикатора
+    assert predicate_is_positive(3) == True
